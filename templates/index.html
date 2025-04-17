@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpdesk</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
+    <!-- Testna datoteka <link href="custom.css" type="text/css" rel="stylesheet"> !-->
+</head>
+<body>
+    <div class="container">
+        <h1>Zahtjevi</h1>
+
+        <form action="/" method="GET">
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="status">Filtriraj Status:</label>
+                    <select class="form-control" name="status" id="status">
+                        <option value="">Svi</option>
+                        <option value="Otvoren" {% if status_filter == 'Otvoren' %}selected{% endif %}>Otvoreni</option>
+                        <option value="U tijeku" {% if status_filter == 'U tijeku' %}selected{% endif %}>U tijeku</option>
+                        <option value="Zatvoren" {% if status_filter == 'Zatvoren' %}selected{% endif %}>Zatvoreni</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="assigned">Filtriraj dodijeljenost</label>
+                    <select class="form-control" name="assigned" id="assigned">
+                        <option value="">Svi</option>
+                        <option value="true" {% if assigned_filter == 'true' %}selected{% endif %}>Dodijeljen</option>
+                        <option value="false" {% if assigned_filter == 'false' %}selected{% endif %}>Nije dodijeljen</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button type="submit" class="btn btn-primary">Filtriraj</button>
+                </div>
+            </div>
+        </form>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Naslov</th>
+                    <th>Opis</th>
+                    <th>Dodijeljen</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                <tr>
+                    <td>{{ request.id }}</td>
+                    <td><a href="/modify_request/{{ request.id }}" class="btn btn-sm btn-primary"></a>{{ request.title }}</a></td>
+                    <td>{{ request.description }}</td>
+                    <td>{{ "Da" if request.assigned else "Ne" }}</td>
+                    <td>{{ request.status }}</td>
+                    <td><a href="/modify_request/{{ request.id }}" class="btn btn-sm btn-primary">Uredi</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="/new_request" class="btn btn-success">Novi zahtjev</a>
+        <a href="/report" class="btn btn-primary">Izvještaj</a>
+    </div>
+
+</body>
+</html>
