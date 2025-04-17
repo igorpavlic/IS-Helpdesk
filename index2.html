@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Zahtjevi</h1>
+        <table class="table">
+            <thead>
+                <tr>
+		    <th>ID</th>
+                    <th>Naslov</th>
+                    <th>Opis</th>
+                    <th>Status</th>
+                    <th>Dodijeljen</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                <tr>
+		    <td>{{ request.id }}</td>
+                    <td>{{ request.title }}</td>
+                    <td>{{ request.description }}</td>
+                    <td>{{ request.status }}</td>
+                    <td>{{ request.assigned }}</td>
+                    <td><a href="/request/{{ request.id }}" class="btn btn-primary">Pogledaj</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/new_request" class="btn btn-success">Novi zahtjev</a>
+    </div>
+</body>
+</html>
